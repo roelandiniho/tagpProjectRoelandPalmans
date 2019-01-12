@@ -14,78 +14,62 @@
 %% API
 -export([]).
 
-%%setup() ->
-%%  meck:new(survivor2),
-%%  meck:expect(survivor2, entry,
-%%    fun(_) ->
-%%      pipeTyp_created
-%%    end),
-%%  {ok,PipeTyp}=pipeTyp:create(),
-%%  register(pipeTyp, PipeTyp),
-%%  PipeTyp,
-%%  ?debugMsg("setup").
-%%
-%%cleanup() ->
-%%  unregister(pipeTyp),
-%%  meck:unload(),
-%%  ?debugMsg("cleanup").
-%%
-%%pipeTyp_test_() ->
-%%  {setup,
-%%    fun setup/0,
-%%    fun cleanup/0,
-%%    [?_assert(true)]
-%%  }.
-
-
-
-
-create_test() ->
+setup() ->
   meck:new(survivor2),
   meck:expect(survivor2, entry,
     fun(_) ->
       pipeTyp_created
     end),
   {ok,PipeTyp} = pipeTyp:create(),
-  ?assert(erlang:is_process_alive(PipeTyp)).
+  register(pipeTyp, PipeTyp).
 
-initial_state_test() ->
-  {ok,PipeTyp} = pipeTyp:create(),
+cleanup(_) ->
+  unregister(pipeTyp),
+  meck:unload().
+
+pipeTyp_test_() ->
+  {setup,
+    fun setup/0,
+    fun cleanup/1,
+    [{inorder,
+      [fun test_create/0,
+        fun test_initial_state/0,
+        fun test_connection_list/0,
+        fun test_location_list/0,
+        fun test_flow_influence/0]}]}.
+
+test_create() ->
+  ?assert(erlang:is_process_alive(whereis(pipeTyp))).
+
+test_initial_state() ->
   meck:new(location),
   meck:expect(location, create, fun(_, emptySpace) -> locationPid end),
-
   meck:new(connector),
   meck:expect(connector, create, fun(_, simplePipe) -> connectorPid end),
 
-  {ok, State} = msg:get(PipeTyp, initial_state, [resInstPid, typeOptions]),
+  {ok, State} = msg:get(whereis(pipeTyp), initial_state, [resInstPid, typeOptions]),
   ?assertEqual([connectorPid,connectorPid], maps:get(cList, State)),
   ?assertEqual([locationPid], maps:get(chambers, State)),
   ?assertEqual(maps:get(resInst, State), resInstPid),
   ?assertEqual(maps:get(typeOptions, State), typeOptions).
 
-connection_list_test() ->
-  {ok,PipeTyp} = pipeTyp:create(),
-
-  {ok,Clist} = msg:get(PipeTyp, connections_list, #{cList => [cIn,cOut],
+test_connection_list() ->
+  {ok,Clist} = msg:get(whereis(pipeTyp), connections_list, #{cList => [cIn,cOut],
     chambers => [kamer],
     resInst => resInst,
     typeOptions => []}),
 
   ?assertEqual([cIn,cOut], Clist).
 
-location_list_test() ->
-  {ok,PipeTyp} = pipeTyp:create(),
-
-  {ok,L_List} = msg:get(PipeTyp, locations_list, #{cList => [cIn,cOut],
+test_location_list() ->
+  {ok,L_List} = msg:get(whereis(pipeTyp), locations_list, #{cList => [cIn,cOut],
     chambers => [kamer],
     resInst => resInst,
     typeOptions => []}),
 
   ?assertEqual([kamer], L_List).
 
-flow_influence_test() ->
-  {ok,PipeTyp} = pipeTyp:create(),
-
-  {ok,Function} = msg:get(PipeTyp, flow_influence, state),
+test_flow_influence() ->
+  {ok,Function} = msg:get(whereis(pipeTyp), flow_influence, state),
 
   ?assertNotEqual([],Function).

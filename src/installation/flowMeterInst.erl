@@ -14,7 +14,7 @@ create(Host, FlowMeterTyp_Pid, ResInst_Pid, RealWorldCmdFn) ->
 -spec init(Host::_,FlowMeterTyp_Pid::pid(),ResInst_Pid::pid(),RealWorldCmdFn::_) -> no_return().
 init(Host, FlowMeterTyp_Pid, ResInst_Pid, RealWorldCmdFn) ->
 	{ok, State} = apply(resource_type, get_initial_state, [FlowMeterTyp_Pid, self(),     [ResInst_Pid, RealWorldCmdFn]]),
-									%  get_initial_state  (ResTyp_Pid,       ThisResInst, TypeOptions) 
+									%  get_initial_state  (ResTyp_Pid,       ThisResInst, TypeOptions)
 	survivor2:entry({ flowMeterInst_created, State }),
 	loop(Host, State, FlowMeterTyp_Pid, ResInst_Pid).
 

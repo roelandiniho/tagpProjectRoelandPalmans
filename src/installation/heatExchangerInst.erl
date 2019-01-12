@@ -6,13 +6,14 @@
 % a function that models the mutual effect on the temperature of the flows on either side. 
 
 -spec create(Host::_,HeatExchangerTyp_Pid::pid(),PipeInst_Pid::pid(),HE_link_spec::_) -> {'ok',pid()}.
-create(Host, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec) -> {ok, spawn(?MODULE, init, [Host, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec])}.
+create(Host, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec) ->
+	{ok, spawn(?MODULE, init, [Host, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec])}.
 
 -spec init(Host::_,HeatExchangerTyp_Pid::pid(),PipeInst_Pid::pid(),HE_link_spec::_) -> no_return().
 init(Host, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec) ->
 	{ok, State} = apply(resource_type, get_initial_state, [HeatExchangerTyp_Pid, self(), PipeInst_Pid]),
 									%  get_initial_state  (ResTyp_Pid,  ResInst_Pid, TypeOptions) 
-	survivor2:entry({ pumpInst_created, State }),
+	survivor2:entry({ heatExchangerInst_created, State }),
 	loop(Host, State, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec).
 
 

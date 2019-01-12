@@ -4,16 +4,10 @@
 %%% @doc
 %%%
 %%% @end
-%%% Created : 10. Jan 2019 18:07
+%%% Created : 12. Jan 2019 17:55
 %%%-------------------------------------------------------------------
--module(locations_tests).
+-module(pumpInst_tests).
 -author("roeland").
-
--include_lib("eunit/include/eunit.hrl").
 
 %% API
 -export([]).
-
-create_test() ->
-  {ok, FlowMeterPid} = flowMeterTyp:create(),
-  ?assertNotEqual([], FlowMeterPid).

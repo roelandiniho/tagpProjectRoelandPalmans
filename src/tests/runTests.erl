@@ -13,7 +13,6 @@
 -export([runTests/0]).
 
 runTests() ->
-  %Test starts survivor2
   io:format("survivor2: "),
   eunit:test(survivor2),
 
@@ -28,4 +27,6 @@ runTests() ->
   io:format("fluidumTyp: "),
   eunit:test(fluidumTyp),
   io:format("flowMeterTyp: "),
-  eunit:test(flowMeterTyp).
+  eunit:test(flowMeterTyp),
+  io:format("heatExchangerTyp: "),
+  eunit:test(heatExchangerTyp).

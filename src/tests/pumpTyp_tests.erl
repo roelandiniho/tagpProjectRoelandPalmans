@@ -15,53 +15,70 @@
 -export([]).
 
 %TODO: test create/init
-
-initial_state_test() ->
+setup() ->
+  meck:new(survivor2),
+  meck:expect(survivor2, entry,
+    fun(_) ->
+      pumpTyp_created
+    end),
   {_,PumpTyp} = pumpTyp:create(),
+  register(pumpTyp, PumpTyp).
 
-  {ok, State} = msg:get(PumpTyp, initial_state, [resInstPid, [pipeInstPid, realWorldCmdFn]]),
+cleanup(_) ->
+  unregister(pumpTyp),
+  meck:unload().
+
+pipeTyp_test_() ->
+  {setup,
+    fun setup/0,
+    fun cleanup/1,
+    [{inorder,
+      [fun test_create/0,
+        fun test_initial_state/0,
+        fun test_switchOff/0,
+        fun test_switchOn/0,
+        fun test_switchIsOn/0,
+        fun test_flow_influence/0]}]}.
+
+test_create() ->
+  ?assert(erlang:is_process_alive(whereis(pumpTyp))).
+
+test_initial_state() ->
+  {ok, State} = msg:get(whereis(pumpTyp), initial_state, [resInstPid, [pipeInstPid, realWorldCmdFn]]),
   ?assertEqual(maps:get(on_or_off, State), off),
   ?assertEqual(maps:get(rw_cmd, State), realWorldCmdFn),
   ?assertEqual(maps:get(resInst, State), resInstPid),
   ?assertEqual(maps:get(pipeInst, State), pipeInstPid).
 
-switchOff_test() ->
-  {_,PumpTyp} = pumpTyp:create(),
-
-  {ok,State} = msg:get(PumpTyp, switchOff, #{resInst => resInst, pipeInst => pipeInst,
+test_switchOff() ->
+  {ok,State} = msg:get(whereis(pumpTyp), switchOff, #{resInst => resInst, pipeInst => pipeInst,
     rw_cmd => fun(X)->X end, on_or_off => on}),
 
   ?assertEqual(maps:get(on_or_off, State), off).
 
-switchOn_test() ->
-  {_,PumpTyp} = pumpTyp:create(),
-
-  {ok,State} = msg:get(PumpTyp, switchOn, #{resInst => resInst, pipeInst => pipeInst,
+test_switchOn() ->
+  {ok,State} = msg:get(whereis(pumpTyp), switchOn, #{resInst => resInst, pipeInst => pipeInst,
     rw_cmd => fun(X)->X end, on_or_off => off}),
 
   ?assertEqual(maps:get(on_or_off, State), on).
 
-switchIsOn_test() ->
-  {_,PumpTyp} = pumpTyp:create(),
-
-  {ok,IsOff} = msg:get(PumpTyp, isOn, #{resInst => resInst, pipeInst => pipeInst,
+test_switchIsOn() ->
+  {ok,IsOff} = msg:get(whereis(pumpTyp), isOn, #{resInst => resInst, pipeInst => pipeInst,
     rw_cmd => fun(X)->X end, on_or_off => off}),
 
   ?assertEqual(IsOff, off),
 
-  {ok,IsOn} = msg:get(PumpTyp, isOn, #{resInst => resInst, pipeInst => pipeInst,
+  {ok,IsOn} = msg:get(whereis(pumpTyp), isOn, #{resInst => resInst, pipeInst => pipeInst,
     rw_cmd => fun(X)->X end, on_or_off => on}),
 
   ?assertEqual(IsOn, on).
 
-flow_influence_test() ->
-  {_,PumpTyp} = pumpTyp:create(),
-
-  {ok,FunctionOn} = msg:get(PumpTyp, flow_influence, #{resInst => resInst, pipeInst => pipeInst,
+test_flow_influence() ->
+  {ok,FunctionOn} = msg:get(whereis(pumpTyp), flow_influence, #{resInst => resInst, pipeInst => pipeInst,
     rw_cmd => fun(X)->X end, on_or_off => on}),
   ?assertNotEqual([],FunctionOn),
 
-  {ok,FunctionOff} = msg:get(PumpTyp, flow_influence, #{resInst => resInst, pipeInst => pipeInst,
+  {ok,FunctionOff} = msg:get(whereis(pumpTyp), flow_influence, #{resInst => resInst, pipeInst => pipeInst,
     rw_cmd => fun(X)->X end, on_or_off => off}),
   ?assertNotEqual([],FunctionOff),
   ?assertNotEqual(FunctionOff, FunctionOn).

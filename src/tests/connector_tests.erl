@@ -14,54 +14,63 @@
 %% API
 -export([]).
 
-create_test() ->
-  ConnecterPid = connector:create(resInstPid, connecterTyp_PID),
-  ?assert(erlang:is_process_alive(ConnecterPid)).
-
-connect_test() ->
+setup() ->
   meck:new(survivor2),
   meck:expect(survivor2, entry,
     fun(_) ->
-      connection_made
+      connector_created
     end),
+  ConnectorPidIn = connector:create(resInstPid, connecterTyp_PIDIn),
+  ConnectorPidOut = connector:create(resInstPid, connecterTyp_PIDOut),
+  register(connectorPidIn, ConnectorPidIn),
+  register(connectorPidOut, ConnectorPidOut).
 
-  ConnecterPid = connector:create(resInstPid1, connecterTyp_PID1),
-  ConnecterPid2 = connector:create(resInstPid2, connecterTyp_PID2),
-  {connect, Connect} = connector:connect(ConnecterPid, ConnecterPid2),
-  ?assertEqual(ConnecterPid2, Connect).
+cleanup(_) ->
+  unregister(connectorPidOut),
+  meck:unload().
 
-disconnect_test() ->
-  ConnecterPid = connector:create(resInstPid1, connecterTyp_PID1),
+connector_test_() ->
+  {setup,
+    fun setup/0,
+    fun cleanup/1,
+    [{inorder,
+      [fun test_create/0,
+        fun test_connect/0,
+        fun test_get_connected/0,
+        fun test_disconnect/0,
+        fun test_get_ResInst/0,
+        fun test_get_type/0,
+        fun test_discard/0]}]}.
 
-  Disconnect = connector:disconnect(ConnecterPid),
+test_create() ->
+  ?assert(erlang:is_process_alive(whereis(connectorPidIn))),
+  ?assert(erlang:is_process_alive(whereis(connectorPidOut))).
+
+test_connect() ->
+  {connect, Connect} = connector:connect(whereis(connectorPidIn), whereis(connectorPidOut)),
+  ?assertEqual(whereis(connectorPidOut), Connect).
+
+test_get_connected() ->
+  List = connector:get_connected(whereis(connectorPidIn)),
+  ?assertEqual({ok, whereis(connectorPidOut)}, List).
+
+test_disconnect() ->
+  Disconnect = connector:disconnect(whereis(connectorPidIn)),
   ?assertEqual(disconnect, Disconnect).
 
-get_connected_test() ->
-  ConnecterPid = connector:create(resInstPid1, connecterTyp_PID1),
-  ConnecterPid2 = connector:create(resInstPid2, connecterTyp_PID2),
-  connector:connect(ConnecterPid, ConnecterPid2),
+test_get_ResInst() ->
+  {ok, RestInst} = connector:get_ResInst(whereis(connectorPidIn)),
+  ?assertEqual(resInstPid, RestInst).
 
-  List = connector:get_connected(ConnecterPid),
-  ?assertEqual({ok, ConnecterPid2}, List).
+test_get_type() ->
+  {ok, ConnectorTypPid} = connector:get_type(whereis(connectorPidIn)),
+  ?assertEqual(connecterTyp_PIDIn, ConnectorTypPid).
 
-get_resInst_test() ->
-  ConnecterPid = connector:create(resInstPid1, connecterTyp_PID1),
-  {ok, RestInst} = connector:get_ResInst(ConnecterPid),
-  ?assertEqual(resInstPid1, RestInst).
-
-get_type_test() ->
-  ConnecterPid = connector:create(resInstPid1, connecterTyp_PID1),
-  {ok, ConnecterTypPid} = connector:get_type(ConnecterPid),
-  ?assertEqual(connecterTyp_PID1, ConnecterTypPid).
-
-discard_test() ->
-  meck:new(survivor2),
+test_discard() ->
   meck:expect(survivor2, entry,
     fun(_) ->
       connector_discarded
     end),
-
-  ConnecterPid = connector:create(resInstPid1, connecterTyp_PID1),
-  Discard = connector:discard(ConnecterPid),
+  Discard = connector:discard(whereis(connectorPidIn)),
   ?assertEqual(discard, Discard).
 
