@@ -26,9 +26,9 @@ resource_type_test_() ->
     fun setup/0,
     fun cleanup/1,
     [{inorder,
-      [fun test_create_pipeTyp/0]}]}.
+      [fun test_create_resourceTypes/0]}]}.
 
-test_create_pipeTyp() ->
+test_create_resourceTypes() ->
   test_create_resource(pipeTyp, []),
   test_create_resource(pumpTyp, []),
   test_create_resource(fluidumTyp, []),

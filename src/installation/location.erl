@@ -8,6 +8,7 @@ create(ResInst_Pid, LocationTyp_Pid) ->
 
 -spec init(ResInst_Pid::pid(),LocationTyp_Pid::pid()) -> 'stoppedVisitor_Pid'.
 init(ResInst_Pid, LocationTyp_Pid) ->
+	survivor2:entry(location_created),
 	loop(ResInst_Pid, LocationTyp_Pid, vacant).
 
 -spec get_ResInst(Location_Pid::pid()) -> {'ok',pid()} | {'error','timed_out',pid(),_,reference()}.

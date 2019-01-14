@@ -10,6 +10,7 @@
 -author("roeland").
 
 -include_lib("eunit/include/eunit.hrl").
+-define(FORALL(X,RawType,Prop), proper:forall(RawType,fun(X) -> Prop end)).
 
 %% API
 -export([]).

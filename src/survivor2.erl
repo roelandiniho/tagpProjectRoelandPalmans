@@ -1,5 +1,5 @@
 -module(survivor2).
--export([start/0, entry/1, init/0]).
+-export([start/0, entry/1, init/0, printTable/0]).
 
 -spec start() -> 'true'.
 start() ->
@@ -21,3 +21,6 @@ loop() ->
   receive
     stop -> ok
   end.
+
+printTable() ->
+  ets:match_object(logboek, {'$0', '$1'}).

@@ -19,7 +19,7 @@ get_resource_circuit(TypePid, State) ->
 loop() ->
 	receive
 		{initial_state, [ResInst_Pid, [Root_ConnectorPid, TypeOptions]], ReplyFn} -> 
-			{ok, C} = discover_circuit(Root_ConnectorPid), 
+			{ok, {_,C}} = discover_circuit(Root_ConnectorPid),
 			ReplyFn(#{resInst => ResInst_Pid, circuit => C, typeOptions => TypeOptions}), 
 			loop();
 		{connections_list, _State , ReplyFn} -> 
@@ -29,17 +29,20 @@ loop() ->
 			ReplyFn([]),
 			loop();
 		{resource_circuit, State, ReplyFn} ->
-			#{circuit := C} = State, ReplyFn(extract(C)),
+			#{circuit := C} = State,
+			ReplyFn(extract(C)),
 			loop()
 	end. 
 
 -spec extract(C::map()) -> #{pid()=>'processed'}.
-extract(C) -> extract(maps:next(maps:iterator(C)), #{}).
+extract(C) ->
+	extract(maps:next(maps:iterator(C)), #{}).
 
 -spec extract('none' | {pid(),_,maps:iterator()},#{pid()=>'processed'}) -> #{pid()=>'processed'}.
 extract({C, _ , Iter }, ResLoop) ->
 		{ok, ResPid} = connector:get_ResInst(C),
-		extract(maps:next(Iter), ResLoop#{ResPid => processed});
+		extract(maps:next(Iter),
+			ResLoop#{ResPid => processed});
 
 extract( none , ResLoop) -> ResLoop. 
 
@@ -52,8 +55,8 @@ discover_circuit(Root_Pid) ->
 discover_circuit([ disconnected | Todo_List], Circuit) ->
 	discover_circuit(Todo_List, Circuit);
 
-discover_circuit([C | Todo_List], Circuit) -> 
-	{ok, Updated_Todo_list, Updated_Circuit} = 
+discover_circuit([C | Todo_List], Circuit) ->
+	{ok, Updated_Todo_list, Updated_Circuit} =
 		process_connection(C, maps:find(C, Circuit ), Todo_List, Circuit),
 	discover_circuit(Updated_Todo_list, Updated_Circuit);
 
@@ -68,7 +71,7 @@ process_connection(C, error, Todo_List, Circuit) ->
 	{ok, C_list} = resource_instance:list_connectors(ResPid),
 	{ok, C_list ++  Updated_Todo_list, Updated_Circuit};
 
-process_connection( _, _ , Todo_List, Circuit) -> 
+process_connection( _, _ , Todo_List, Circuit) ->
 	{ok, Todo_List, Circuit}.
 
 

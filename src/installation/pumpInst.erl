@@ -22,7 +22,6 @@ switch_off(PumpInst_Pid) ->
 
 -spec switch_on(PumpInst_Pid::pid()) -> 'switchOn'.
 switch_on(PumpInst_Pid) ->
-	io:format("switch_on!!!! ~n"),
 	PumpInst_Pid ! switchOn. 
 
 -spec is_on(PumpInst_Pid::pid()) -> {'ok','on'|'off'} | {'error','timed_out',pid(),_,reference()}.

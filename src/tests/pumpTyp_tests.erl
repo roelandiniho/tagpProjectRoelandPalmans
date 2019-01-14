@@ -28,7 +28,7 @@ cleanup(_) ->
   unregister(pumpTyp),
   meck:unload().
 
-pipeTyp_test_() ->
+pumpTyp_test_() ->
   {setup,
     fun setup/0,
     fun cleanup/1,
