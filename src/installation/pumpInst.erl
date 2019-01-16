@@ -1,5 +1,5 @@
 -module(pumpInst).
--export([create/4, init/4, switch_on/1, switch_off/1, is_on/1, flow_influence/1]).
+-export([create/4, init/4, switch_on/1, switch_off/1, is_on/1, get_flow_influence/1]).
 % -export([commission/1, activate/1]).
 % -export([deactivate/1, decommission/1]).
 
@@ -28,8 +28,8 @@ switch_on(PumpInst_Pid) ->
 is_on(PumpInst_Pid) ->
 	msg:get(PumpInst_Pid, isOn).
 
--spec flow_influence(PumpInst_Pid::pid()) -> {'ok',_} | {'error','timed_out',pid(),_,reference()}.
-flow_influence(PumpInst_Pid) ->
+-spec get_flow_influence(PumpInst_Pid::pid()) -> {'ok',_} | {'error','timed_out',pid(),_,reference()}.
+get_flow_influence(PumpInst_Pid) ->
 	msg:get(PumpInst_Pid, get_flow_influence).
 
 
@@ -38,6 +38,8 @@ loop(Host, State, PumpTyp_Pid, PipeInst_Pid) ->
 	receive
 		switchOn ->
 			{ok, NewState} = msg:set_ack(PumpTyp_Pid, switchOn, State),
+			#{resInst := ResInst} = State,
+			PipeInst_Pid ! {set_ResInst_connector, ResInst},
 			loop(Host, NewState, PumpTyp_Pid, PipeInst_Pid);
 		switchOff -> 
 			{ok, NewState} = msg:set_ack(PumpTyp_Pid, switchOff, State), 

@@ -1,7 +1,7 @@
 -module(connector).
 
 -export([create/2, connect/2, disconnect/1, discard/1]).
--export([get_connected/1, get_ResInst/1, get_type/1]).
+-export([get_connected/1, get_ResInst/1, get_type/1, set_ResInst/2]).
 
 -export([init/2, test/0]). % for internal use only.
 
@@ -30,6 +30,10 @@ get_connected(Connector_Pid) ->
 get_ResInst(Connector_Pid) ->
 	msg:get(Connector_Pid, get_ResInst).
 
+-spec set_ResInst(Connector_Pid::pid(), NewResInst::pid()) -> {'ok',pid()} | {'error','timed_out',pid(),_,reference()}.
+set_ResInst(Connector_Pid, NewResInst) ->
+	Connector_Pid ! {set_ResInst, NewResInst}.
+
 -spec get_type(Connector_Pid::pid()) -> {'ok',pid()} | {'error','timed_out',pid(),_,reference()}.
 get_type(Connector_Pid) ->
 	msg:get(Connector_Pid, get_type ).
@@ -54,6 +58,8 @@ loop(ResInst_Pid, Connected_Pid, ConnectTyp_Pid) ->
 		{get_ResInst, ReplyFn} ->
 			ReplyFn(ResInst_Pid),
 			loop(ResInst_Pid, Connected_Pid, ConnectTyp_Pid);
+		{set_ResInst, NewResInst} ->
+			loop(NewResInst, Connected_Pid, ConnectTyp_Pid);
 		{get_type, ReplyFn} ->
 			ReplyFn(ConnectTyp_Pid),
 			loop(ResInst_Pid, Connected_Pid, ConnectTyp_Pid);

@@ -19,7 +19,6 @@ loop() ->
 	receive
 		{initial_state, [ResInst_Pid, TypeOptions], ReplyFn} ->
 			Location = location:create(ResInst_Pid, emptySpace),
-			io:format("Location = ~p ~n", [Location]),
 			In = connector:create(ResInst_Pid, simplePipe),
 			Out = connector:create(ResInst_Pid, simplePipe),
 			ReplyFn(#{resInst => ResInst_Pid, chambers => [Location],

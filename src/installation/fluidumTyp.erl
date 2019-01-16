@@ -1,7 +1,7 @@
 -module(fluidumTyp).
 
 -export([create/0, init/0, discover_circuit/1]).
--export([get_resource_circuit/2]).
+-export([get_resource_circuit/2, extract/1, process_connection/4]).
 
 -spec create() -> pid().
 create() -> spawn(?MODULE, init, []).
@@ -40,9 +40,9 @@ extract(C) ->
 
 -spec extract('none' | {pid(),_,maps:iterator()},#{pid()=>'processed'}) -> #{pid()=>'processed'}.
 extract({C, _ , Iter }, ResLoop) ->
-		{ok, ResPid} = connector:get_ResInst(C),
-		extract(maps:next(Iter),
-			ResLoop#{ResPid => processed});
+	{ok, ResPid} = connector:get_ResInst(C),
+	extract(maps:next(Iter),
+		ResLoop#{ResPid => processed});
 
 extract( none , ResLoop) -> ResLoop. 
 

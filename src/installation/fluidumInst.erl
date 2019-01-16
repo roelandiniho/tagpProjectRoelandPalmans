@@ -26,8 +26,20 @@ loop(Root_ConnectorPid, State, ResTyp_Pid) ->
 		{get_type, ReplyFn} ->
 			ReplyFn(ResTyp_Pid),
 			loop(Root_ConnectorPid, State, ResTyp_Pid);
-		{get_resource_circuit, ReplyFn} -> 
+		{get_resource_circuit, ReplyFn} ->
 			{ok, C} = fluidumTyp:get_resource_circuit(ResTyp_Pid, State),
 			ReplyFn(C), 
+			loop(Root_ConnectorPid, State, ResTyp_Pid);
+		fluidum_arrives_at_locations ->
+			{ok, C} = fluidumTyp:get_resource_circuit(ResTyp_Pid, State),
+			arriveAtLocations(C, self()),
 			loop(Root_ConnectorPid, State, ResTyp_Pid)
 	end.
+
+arriveAtLocations(C, Visitor) ->
+	arriveAtLocations(maps:next(maps:iterator(C)), Visitor);
+
+arriveAtLocations({C, _ , Iter }, Visitor) ->
+	{ok, [Location |_]} = resource_instance:list_locations(C),
+	location:arrival(Location, Visitor);
+arriveAtLocations(_,_) -> ok.

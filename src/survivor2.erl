@@ -1,5 +1,5 @@
 -module(survivor2).
--export([start/0, entry/1, init/0, printTable/0]).
+-export([start/0, entry/1, init/0, printTable/0, printInst/1, printType/1]).
 
 -spec start() -> 'true'.
 start() ->
@@ -24,3 +24,9 @@ loop() ->
 
 printTable() ->
   ets:match_object(logboek, {'$0', '$1'}).
+
+printInst(Inst) ->
+  ets:match_object(logboek, {'$0', {list_to_atom(lists:flatten(io_lib:format("~pInst_created", [Inst]))), '$1'}}).
+
+printType(Type) ->
+  ets:match_object(logboek, {'$0', list_to_atom(lists:flatten(io_lib:format("~pType_created", [Type])))}).

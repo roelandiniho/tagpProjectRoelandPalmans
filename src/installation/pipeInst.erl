@@ -1,7 +1,5 @@
 -module(pipeInst).
--export([create/2, init/2, get_flow_influence/1]).
-
-
+-export([create/2, init/2, get_flow_influence/1, set_ResInst_connector/2, set_ResInst_location/2]).
 
 -spec create(Host::_,ResTyp_Pid::pid()) -> {'ok',pid()}.
 create(Host, ResTyp_Pid) ->
@@ -18,6 +16,12 @@ init(Host, ResTyp_Pid) ->
 get_flow_influence(PipeInst_Pid) ->
 	msg:get(PipeInst_Pid, get_flow_influence).
 
+set_ResInst_connector(PipeInst_Pid, NewResInst) ->
+	PipeInst_Pid ! {setConnectorResInst, NewResInst}.
+
+set_ResInst_location(PipeInst_Pid, NewResInst) ->
+	PipeInst_Pid ! {setLocationResInst, NewResInst}.
+
 -spec loop(Host::_,State::_,ResTyp_Pid::pid()) -> no_return().
 loop(Host, State, ResTyp_Pid) ->
 	receive
@@ -32,6 +36,16 @@ loop(Host, State, ResTyp_Pid) ->
 		{get_type, ReplyFn} ->
 			ReplyFn(ResTyp_Pid),
 			loop(Host, State, ResTyp_Pid);
+		{set_ResInst_connector, NewResInst_Pid} ->
+			{ok,C_List} = resource_type:get_connections_list(ResTyp_Pid, State),
+			[In, Out] = C_List,
+			connector:set_ResInst(In, NewResInst_Pid),
+			connector:set_ResInst(Out, NewResInst_Pid),
+			loop(Host, State, ResTyp_Pid);
+		{set_ResInst_location, NewResInst_Pid} ->
+			{ok,L_List} = resource_type:get_locations_list(ResTyp_Pid, State),
+			location:set_ResInst(L_List,  NewResInst_Pid),
+			loop(Host, State, ResTyp_Pid);
 		{get_ops, ReplyFn} ->
 			ReplyFn([]),
 			loop(Host, State, ResTyp_Pid);
@@ -41,6 +55,10 @@ loop(Host, State, ResTyp_Pid) ->
 		{get_flow_influence, ReplyFn} ->
 			{ok, InfluenceFn} = msg:get(ResTyp_Pid, flow_influence, State),
 			ReplyFn(InfluenceFn),
+			loop(Host, State, ResTyp_Pid);
+		{set_host, NewHost} ->
+			loop(NewHost, State, ResTyp_Pid);
+		{get_host, ReplyFn} ->
+			ReplyFn(Host),
 			loop(Host, State, ResTyp_Pid)
 	end.
-	

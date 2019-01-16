@@ -1,5 +1,5 @@
 -module(flowMeterTyp).
--export([create/0, init/0]).
+-export([create/0, init/0, computeFlow/1, influence/2, compute/2, eval/3]).
 % -export([dispose/2, enable/2, new_version/2]).
 % -export([get_initial_state/3, get_connections_list/2]). % use resource_type
 % -export([update/3, execute/7, refresh/4, cancel/4, update/7, available_ops/2]). 
@@ -28,7 +28,9 @@ loop() ->
 		{estimate_flow, State, ReplyFn} ->
 			#{fluidum := F} = State,
 			{ok, C} = fluidumInst:get_resource_circuit(F),
-			ReplyFn(computeFlow(C)),
+			Answer = computeFlow(C),
+			survivor2:entry({circuit, C, with, estimated, flow, Answer}),
+			ReplyFn(Answer),
 			loop(); 
 		{isOn, State, ReplyFn} ->
 			#{on_or_off := OnOrOff} = State, 
@@ -58,8 +60,9 @@ compute({Low, High}, InflFnCircuit) ->
 	H = eval(High, InflFnCircuit, 0),
 	L = eval(Low, InflFnCircuit, 0),
 	H = eval(High, InflFnCircuit, 0),
-	Mid = (H + L) / 2, M = eval(Mid, InflFnCircuit, 0),
-	if 	M > 0 -> 
+	Mid = (H + L) / 2,
+	M = eval(Mid, InflFnCircuit, 0),
+	if 	M > 0 ->
 			compute({Low, Mid}, InflFnCircuit);
         true -> % works as an 'else' branch
             compute({Mid, High}, InflFnCircuit)

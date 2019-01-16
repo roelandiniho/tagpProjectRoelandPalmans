@@ -1,5 +1,5 @@
 -module(location).
--export([create/2, get_ResInst/1, get_Visitor/1, get_Type/1, arrival/2, departure/1, dispose/1]).
+-export([create/2, get_ResInst/1, get_Visitor/1, get_Type/1, arrival/2, departure/1, dispose/1, set_ResInst/2]).
 -export([init/2]).
 
 -spec create(ResInst_Pid::pid(),LocationTyp_Pid::pid()|'emptySpace') -> pid().
@@ -14,6 +14,10 @@ init(ResInst_Pid, LocationTyp_Pid) ->
 -spec get_ResInst(Location_Pid::pid()) -> {'ok',pid()} | {'error','timed_out',pid(),_,reference()}.
 get_ResInst(Location_Pid) -> 
 	msg:get(Location_Pid, get_ResInst).
+
+-spec set_ResInst(Location_Pid::pid(), NewResInst::pid()) -> {'ok',pid()} | {'error','timed_out',pid(),_,reference()}.
+set_ResInst(Location_Pid, NewResInst) ->
+	Location_Pid ! {set_ResInst, NewResInst}.
 
 -spec get_Visitor(Location_Pid::pid()) -> {'ok',pid()} | {'error','timed_out',pid(),_,reference()}.
 get_Visitor(Location_Pid) ->
@@ -47,6 +51,8 @@ loop(ResInst_Pid, LocationTyp_Pid, Visitor_Pid) ->
 		{get_Type, ReplyFn} -> 
 			ReplyFn(LocationTyp_Pid),
 			loop(ResInst_Pid, LocationTyp_Pid, Visitor_Pid);
+		{set_ResInst, NewResInst} ->
+			loop(NewResInst, LocationTyp_Pid, Visitor_Pid);
 		{arrived, V_Pid} ->
 			loop(ResInst_Pid, LocationTyp_Pid, V_Pid);
 		departed -> 
