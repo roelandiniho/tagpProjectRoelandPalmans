@@ -37,32 +37,28 @@ loop() ->
 -spec extract(C::map()) -> #{pid()=>'processed'}.
 extract(C) ->
 	extract(maps:next(maps:iterator(C)), #{}).
-
 -spec extract('none' | {pid(),_,maps:iterator()},#{pid()=>'processed'}) -> #{pid()=>'processed'}.
 extract({C, _ , Iter }, ResLoop) ->
 	{ok, ResPid} = connector:get_ResInst(C),
 	extract(maps:next(Iter),
 		ResLoop#{ResPid => processed});
-
 extract( none , ResLoop) -> ResLoop. 
 
 -spec discover_circuit(Root_Pid::pid()) -> {'ok',{pid(),#{_=>'processed'}}}.
 discover_circuit(Root_Pid) ->
 	{ok,  Circuit} = discover_circuit([Root_Pid], #{  }),
 	{ok, {Root_Pid, Circuit}}.
-
 -spec discover_circuit([any()],#{_=>'processed'}) -> {'ok',#{_=>'processed'}}.
 discover_circuit([ disconnected | Todo_List], Circuit) ->
 	discover_circuit(Todo_List, Circuit);
-
 discover_circuit([C | Todo_List], Circuit) ->
 	{ok, Updated_Todo_list, Updated_Circuit} =
 		process_connection(C, maps:find(C, Circuit ), Todo_List, Circuit),
 	discover_circuit(Updated_Todo_list, Updated_Circuit);
-
 discover_circuit([], Circuit) ->
 	{ ok, Circuit }.
 
+-spec process_connection(_,_,_,_) -> {'ok',_,_}.
 process_connection(C, error, Todo_List, Circuit) -> 
 	Updated_Circuit = Circuit#{ C => processed },
     {ok, CC} = connector:get_connected(C),
@@ -70,7 +66,6 @@ process_connection(C, error, Todo_List, Circuit) ->
 	{ok, ResPid} = connector:get_ResInst(C),
 	{ok, C_list} = resource_instance:list_connectors(ResPid),
 	{ok, C_list ++  Updated_Todo_list, Updated_Circuit};
-
 process_connection( _, _ , Todo_List, Circuit) ->
 	{ok, Todo_List, Circuit}.
 

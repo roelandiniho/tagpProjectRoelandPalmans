@@ -15,18 +15,22 @@
 -export([]).
 
 setup() ->
+  meck:expect(survivor2, entry,
+    fun(_) ->
+      location_created
+    end),
   LocationPid = location:create(resInstPid, locationTypPid),
   register(location, LocationPid).
 
 cleanup(_) ->
-  unregister(location).
+  meck:unload().
 
 location_test_() ->
   {setup,
     fun setup/0,
     fun cleanup/1,
     [{inorder,
-      [fun test_create/0,
+      [ fun test_create/0,
         fun test_get_ResInst/0,
         fun test_get_Visitor_vacant/0,
         fun test_get_type/0,

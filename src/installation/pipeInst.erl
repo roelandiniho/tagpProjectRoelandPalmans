@@ -7,7 +7,6 @@ create(Host, ResTyp_Pid) ->
 
 -spec init(Host::_,ResTyp_Pid::pid()) -> no_return().
 init(Host, ResTyp_Pid) ->
-%	{ok, State} = apply(resource_type, get_initial_state, [ResTyp_Pid, self(), []]),	
 	{ok, State} = resource_type:get_initial_state(ResTyp_Pid, self(), []),
 	survivor2:entry({ pipeInst_created, State }),
 	loop(Host, State, ResTyp_Pid).
@@ -16,9 +15,11 @@ init(Host, ResTyp_Pid) ->
 get_flow_influence(PipeInst_Pid) ->
 	msg:get(PipeInst_Pid, get_flow_influence).
 
+-spec set_ResInst_connector(PipeInst_Pid::pid(), NewResInst::pid()) -> {'setConnectorResInst',_}.
 set_ResInst_connector(PipeInst_Pid, NewResInst) ->
 	PipeInst_Pid ! {setConnectorResInst, NewResInst}.
 
+-spec set_ResInst_location(PipeInst_Pid::pid(), NewResInst::pid()) -> {'setLocationResInst',_}.
 set_ResInst_location(PipeInst_Pid, NewResInst) ->
 	PipeInst_Pid ! {setLocationResInst, NewResInst}.
 

@@ -30,7 +30,7 @@ get_connected(Connector_Pid) ->
 get_ResInst(Connector_Pid) ->
 	msg:get(Connector_Pid, get_ResInst).
 
--spec set_ResInst(Connector_Pid::pid(), NewResInst::pid()) -> {'ok',pid()} | {'error','timed_out',pid(),_,reference()}.
+-spec set_ResInst(Connector_Pid::pid(),NewResInst::pid()) -> {'set_ResInst',pid()}.
 set_ResInst(Connector_Pid, NewResInst) ->
 	Connector_Pid ! {set_ResInst, NewResInst}.
 

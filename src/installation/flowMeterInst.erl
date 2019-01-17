@@ -1,5 +1,6 @@
 -module(flowMeterInst).
--export([create/4, init/4, estimate_flow/1, measure_flow/1]).
+-export([create/4, init/4, estimate_flow/1, measure_flow/1, updateCircuit/1]).
+
 % -export([commission/1, activate/1]).
 % -export([deactivate/1, decommission/1]).
 
@@ -15,8 +16,6 @@ create(Host, FlowMeterTyp_Pid, ResInst_Pid, RealWorldCmdFn) ->
 init(Host, FlowMeterTyp_Pid, ResInst_Pid, RealWorldCmdFn) ->
 	{ok, State} = apply(resource_type, get_initial_state, [FlowMeterTyp_Pid, self(),     [ResInst_Pid, RealWorldCmdFn]]),
 									%  get_initial_state  (ResTyp_Pid,       ThisResInst, TypeOptions)
-	pipeInst:set_ResInst_connector(ResInst_Pid, self()),
-	pipeInst:set_ResInst_location(ResInst_Pid, self()),
 	survivor2:entry({ flowMeterInst_created, State }),
 	loop(Host, State, FlowMeterTyp_Pid, ResInst_Pid).
 
@@ -26,8 +25,11 @@ estimate_flow(FlowMeterInst_Pid) ->
 
 -spec measure_flow(FlowMeterInst_Pid::pid()) -> {'ok',_} | {'error','timed_out',pid(),_,reference()}.
 measure_flow(FlowMeterInst_Pid) ->
-	msg:get(FlowMeterInst_Pid, measure_flow).  
+	msg:get(FlowMeterInst_Pid, measure_flow).
 
+-spec updateCircuit(FlowMeterInst_Pid::pid()) -> {'ok',_} | {'error','timed_out',pid(),_,reference()}.
+updateCircuit(FlowMeterInst_Pid) ->
+	msg:get(FlowMeterInst_Pid, update_state).
 
 -spec loop(Host::_,State::_,FlowMeterTyp_Pid::pid(),ResInst_Pid::pid()) -> no_return().
 loop(Host, State, FlowMeterTyp_Pid, ResInst_Pid) ->
@@ -40,9 +42,13 @@ loop(Host, State, FlowMeterTyp_Pid, ResInst_Pid) ->
 			{ok, InfluenceFn} = msg:get(FlowMeterTyp_Pid, estimate_flow, State),
 			ReplyFn(InfluenceFn),
 			loop(Host, State, FlowMeterTyp_Pid, ResInst_Pid);
+		{update_state, ReplyFn} ->
+			{ok, NewState} = msg:get(FlowMeterTyp_Pid, update_state, State),
+			ReplyFn(NewState),
+			loop(Host, NewState, FlowMeterTyp_Pid, ResInst_Pid);
 		{get_type, ReplyFn} -> 
 			ReplyFn(FlowMeterTyp_Pid),
-			loop(Host, State, FlowMeterTyp_Pid, ResInst_Pid);		
+			loop(Host, State, FlowMeterTyp_Pid, ResInst_Pid);
 		OtherMessage -> 
 			ResInst_Pid ! OtherMessage,
 			loop(Host, State, FlowMeterTyp_Pid, ResInst_Pid)

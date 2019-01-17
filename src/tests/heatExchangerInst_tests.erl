@@ -23,7 +23,7 @@ setup() ->
   {ok,HeatExchangerTyp} = heatExchangerTyp:create(),
   register(heatExchangerTyp, HeatExchangerTyp),
 
-  {ok,HeatExchangerInst} = heatExchangerInst:create(host, HeatExchangerTyp, pipeInst_Pid, hE_link_spec),
+  {ok,HeatExchangerInst} = heatExchangerInst:create(self(), HeatExchangerTyp, pipeInst_Pid, hE_link_spec),
   register(heatExchangerInst, HeatExchangerInst).
 
 cleanup(_) ->

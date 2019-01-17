@@ -1,7 +1,6 @@
 -module(resource_type).
 -export([create/2]).
 -export([get_initial_state/3, get_connections_list/2, get_locations_list/2]).
-
 -spec create(Selector::atom() | tuple(),ParameterList::[any()]) -> any().
 create(Selector, ParameterList) ->
 	% e.g. called as follows: 

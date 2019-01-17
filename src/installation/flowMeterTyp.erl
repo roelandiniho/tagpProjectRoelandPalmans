@@ -1,5 +1,6 @@
 -module(flowMeterTyp).
 -export([create/0, init/0, computeFlow/1, influence/2, compute/2, eval/3]).
+
 % -export([dispose/2, enable/2, new_version/2]).
 % -export([get_initial_state/3, get_connections_list/2]). % use resource_type
 % -export([update/3, execute/7, refresh/4, cancel/4, update/7, available_ops/2]). 
@@ -20,6 +21,13 @@ loop() ->
 			{ok, Fluidum} = location:get_Visitor(L),
 			ReplyFn(#{meterInst => MeterInst_Pid, resInst => ResInst_Pid, 
 					  fluidum => Fluidum, rw_cmd => RealWorldCmdFn}), 
+			loop();
+		{update_state, State, ReplyFn} ->
+			#{resInst := ResInst_Pid} = State,
+			{ok, [L | _ ] } = resource_instance:list_locations(ResInst_Pid),
+			{ok, Fluidum} = location:get_Visitor(L),
+			NewState = maps:update(fluidum, Fluidum, State),
+			ReplyFn(NewState),
 			loop();
 		{measure_flow, State, ReplyFn} ->
 			#{rw_cmd := ExecFn} = State,

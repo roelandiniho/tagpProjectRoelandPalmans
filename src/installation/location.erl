@@ -15,7 +15,7 @@ init(ResInst_Pid, LocationTyp_Pid) ->
 get_ResInst(Location_Pid) -> 
 	msg:get(Location_Pid, get_ResInst).
 
--spec set_ResInst(Location_Pid::pid(), NewResInst::pid()) -> {'ok',pid()} | {'error','timed_out',pid(),_,reference()}.
+-spec set_ResInst(Location_Pid::pid(), NewResInst::pid()) -> {'set_ResInst',_}.
 set_ResInst(Location_Pid, NewResInst) ->
 	Location_Pid ! {set_ResInst, NewResInst}.
 

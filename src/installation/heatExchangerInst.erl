@@ -1,6 +1,5 @@
 -module(heatExchangerInst).
--export([create/4, init/4, temp_influence/1]).
-
+-export([create/4, init/4, temp_influence/1, get_temp_difference/2]).
 % HeatExchanger is a pipe and more; this pipe instance is passed to the create function.
 % HeatExchangers have a HE_link to, typically, another HeatExchanger. The link provides 
 % a function that models the mutual effect on the temperature of the flows on either side. 
@@ -16,12 +15,13 @@ init(Host, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec) ->
 	survivor2:entry({ heatExchangerInst_created, State }),
 	loop(Host, State, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec).
 
-
-
 -spec temp_influence(HeatExchangerInst_Pid::pid()) -> {'ok',_} | {'error','timed_out',pid(),_,reference()}.
 temp_influence(HeatExchangerInst_Pid) ->
 	msg:get(HeatExchangerInst_Pid, get_temp_influence).
 
+-spec get_temp_difference(HeatExchangerInst_Pid::pid(),[number(),...]) -> {'ok',_} | {'error','timed_out',pid(),_,reference()}.
+get_temp_difference(HeatExchangerInst_Pid, [InTemp, Flow]) ->
+	msg:get(HeatExchangerInst_Pid, get_temp_difference, [InTemp, Flow]).
 
 -spec loop(Host::_,State::_,HeatExchangerTyp_Pid::pid(),PipeInst_Pid::pid(),HE_link_spec::_) -> no_return().
 loop(Host, State, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec) ->
@@ -30,7 +30,13 @@ loop(Host, State, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec) ->
 			ReplyFn(HeatExchangerTyp_Pid),
 			loop(Host, State, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec);
 		{get_temp_influence, ReplyFn} ->
-			ReplyFn(heatExchangeLink:get_temp_influence(HE_link_spec)),
+			{ok, TempInfluence} = heatExchangeLink:get_temp_influence(HE_link_spec),
+			ReplyFn(TempInfluence),
+			loop(Host, State, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec);
+		{get_temp_difference, [InTemp, Flow], ReplyFn} ->
+			{ok, TempInfluence} = heatExchangeLink:get_temp_influence(HE_link_spec),
+			{ok, TempDifference} = TempInfluence(Flow, InTemp),
+			ReplyFn(TempDifference),
 			loop(Host, State, HeatExchangerTyp_Pid, PipeInst_Pid, HE_link_spec);
 		OtherMessage -> 
 			PipeInst_Pid ! OtherMessage,

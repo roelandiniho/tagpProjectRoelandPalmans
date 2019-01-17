@@ -1,5 +1,6 @@
 -module(pumpInst).
 -export([create/4, init/4, switch_on/1, switch_off/1, is_on/1, get_flow_influence/1]).
+
 % -export([commission/1, activate/1]).
 % -export([deactivate/1, decommission/1]).
 
@@ -12,7 +13,8 @@ create(Host, PumpTyp_Pid, PipeInst_Pid, RealWorldCmdFn) -> {ok, spawn(?MODULE, i
 -spec init(Host::_,PumpTyp_Pid::pid(),PipeInst_Pid::pid(),RealWorldCmdFn::_) -> no_return().
 init(Host, PumpTyp_Pid, PipeInst_Pid, RealWorldCmdFn) ->
 	{ok, State} = apply(resource_type, get_initial_state, [PumpTyp_Pid, self(),     [PipeInst_Pid, RealWorldCmdFn]]),
-									%  get_initial_state  (ResTyp_Pid,  ResInst_Pid, TypeOptions) 
+	pipeInst:set_ResInst_connector(PumpTyp_Pid, self()),
+	pipeInst:set_ResInst_location(PumpTyp_Pid, self()),
 	survivor2:entry({ pumpInst_created, State }),
 	loop(Host, State, PumpTyp_Pid, PipeInst_Pid).
 

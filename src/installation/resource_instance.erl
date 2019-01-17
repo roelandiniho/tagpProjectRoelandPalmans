@@ -2,7 +2,7 @@
 -export([create/2]).
 -export([list_connectors/1, list_locations/1]).
 -export([get_type/1, get_ops/1, get_state/1, get_flow_influence/1]).
-%%% More to follow later. 
+%%% More to follow later.
 
 -spec create(Selector::atom() | tuple(),Environment::[any()]) -> any().
 create(Selector, Environment) ->

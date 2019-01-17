@@ -1,6 +1,6 @@
 -module(fluidumInst).
 
--export([create/2, init/2, get_resource_circuit/1]).
+-export([create/2, init/2, get_resource_circuit/1, fluidum_arrives_at_locations/1]).
 
 -spec create(Root_ConnectorPid::pid(),ResTyp_Pid::pid()) -> {'ok',pid()}.
 create(Root_ConnectorPid, ResTyp_Pid) ->
@@ -14,7 +14,11 @@ init(Root_ConnectorPid, ResTyp_Pid) ->
 
 -spec get_resource_circuit(ResInstPid::pid()) -> {'ok',_} | {'error','timed_out',pid(),_,reference()}.
 get_resource_circuit(ResInstPid) ->
-	msg:get(ResInstPid, get_resource_circuit). 
+	msg:get(ResInstPid, get_resource_circuit).
+
+-spec fluidum_arrives_at_locations(FluidumInstPid::pid()) -> 'fluidum_arrives_at_locations'.
+fluidum_arrives_at_locations(FluidumInstPid) ->
+	FluidumInstPid ! fluidum_arrives_at_locations.
 
 -spec loop(Root_ConnectorPid::pid(),State::_,ResTyp_Pid::pid()) -> no_return().
 loop(Root_ConnectorPid, State, ResTyp_Pid) ->
@@ -32,14 +36,16 @@ loop(Root_ConnectorPid, State, ResTyp_Pid) ->
 			loop(Root_ConnectorPid, State, ResTyp_Pid);
 		fluidum_arrives_at_locations ->
 			{ok, C} = fluidumTyp:get_resource_circuit(ResTyp_Pid, State),
-			arriveAtLocations(C, self()),
+			arriveAtLocationscircuit(C, self()),
 			loop(Root_ConnectorPid, State, ResTyp_Pid)
 	end.
 
-arriveAtLocations(C, Visitor) ->
-	arriveAtLocations(maps:next(maps:iterator(C)), Visitor);
-
+-spec arriveAtLocationscircuit(C::map(),Visitor::pid()) -> 'ok'.
+arriveAtLocationscircuit(C, Visitor) ->
+	arriveAtLocations(maps:next(maps:iterator(C)), Visitor).
+-spec arriveAtLocations('none' | {C::pid(),_,Iter::maps:iterator()},_) -> 'ok'.
 arriveAtLocations({C, _ , Iter }, Visitor) ->
-	{ok, [Location |_]} = resource_instance:list_locations(C),
-	location:arrival(Location, Visitor);
-arriveAtLocations(_,_) -> ok.
+	{ok, [Location | _ ]} = resource_instance:list_locations(C),
+	location:arrival(Location, Visitor),
+	arriveAtLocations(maps:next(Iter), Visitor);
+arriveAtLocations( none , _ ) -> ok.
