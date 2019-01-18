@@ -75,6 +75,21 @@ getTemperatureInfluence(HeatExhangerPid, InTemp) ->
   {ok, Flow} = estimateFlow(),
   heatExchangerInst:get_temp_difference(HeatExhangerPid, [InTemp, Flow]).%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+getTotalTemperatureInfluence(InTemp) ->
+  {ok, Flow} = estimateFlow(),
+  getTotalTemperatureInfluence(InTemp, 1, Flow).
+getTotalTemperatureInfluence(InTemp, Counter, Flow) ->
+  HeatExhangerPid = whereis(create_atom(heatExchangerInst, Counter)),
+  io:format("InTemp = ~p ~n",[InTemp]),
+  case HeatExhangerPid of
+    undefined ->
+      InTemp;
+    _ ->
+      {ok, TempInfluence} = heatExchangerInst:get_temp_difference(HeatExhangerPid, [InTemp, Flow]),
+      getTotalTemperatureInfluence(TempInfluence, Counter+1, Flow)
+end.
+
 %Estimate the flow
 -spec estimateFlow() -> no_return().
 estimateFlow() ->

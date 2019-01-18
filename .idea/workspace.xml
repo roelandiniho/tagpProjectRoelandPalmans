@@ -2,64 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="79a8ccea-5ec8-45d0-9991-84fa8806a4f4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/circuit_tests.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/circuit.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/circuit.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/connector.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/connector.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/flowMeterInst.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/flowMeterInst.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/flowMeterTyp.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/flowMeterTyp.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/fluidumInst.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/fluidumInst.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/fluidumTyp.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/fluidumTyp.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/heatExchangeLink.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/heatExchangeLink.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/heatExchangerInst.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/heatExchangerInst.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/heatExchangerInst_tests.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/heatExchangerInst_tests.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/heatExchangerTyp.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/heatExchangerTyp.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/location.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/location.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/location_tests.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/location_tests.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/pipeInst.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/pipeInst.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/pumpInst.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/pumpInst.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/pumpInst_tests.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/pumpInst_tests.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/resource_type.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/resource_type.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/runTests.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/testMeckProject/runTests.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/testMeckProject/test1.beam" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/circuit.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/circuit.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/connector.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/connector.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/flowMeterInst.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/flowMeterInst.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/flowMeterTyp.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/flowMeterTyp.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/fluidumInst.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/fluidumInst.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/fluidumTyp.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/fluidumTyp.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/heatExchangeLink.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/heatExchangeLink.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/heatExchangerInst.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/heatExchangerInst.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/heatExchangerInst_tests.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/heatExchangerInst_tests.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/heatExchangerTyp.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/heatExchangerTyp.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/location.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/location.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/location_tests.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/location_tests.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/pipeInst.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/pipeInst.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/pumpInst.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/pumpInst.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/pumpInst_tests.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/pumpInst_tests.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/resource_type.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/resource_type.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/runTests.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/testMeckProject/runTests.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/testMeckProject/test1.beam" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/circuit.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/circuit.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/connector.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/connector.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/flowMeterInst.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/flowMeterInst.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/flowMeterTyp.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/flowMeterTyp.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/fluidumInst.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/fluidumInst.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/fluidumTyp.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/fluidumTyp.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/heatExchangeLink.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/heatExchangeLink.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/heatExchangerInst.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/heatExchangerInst.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/heatExchangerTyp.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/heatExchangerTyp.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/location.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/location.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/pipeInst.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/pipeInst.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/pipeTyp.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/pipeTyp.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/pumpInst.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/pumpInst.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/resource_instance.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/resource_instance.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/installation/resource_type.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/installation/resource_type.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test1.erl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/heatExchangerInst_tests.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/heatExchangerInst_tests.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/location_tests.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/location_tests.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/pumpInst_tests.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/pumpInst_tests.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tests/runTests.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/runTests.erl" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -76,8 +19,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/survivor2.erl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="6" column="47" selection-start-line="6" selection-start-column="47" selection-end-line="6" selection-end-column="47" />
+            <state relative-caret-position="416">
+              <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
             </state>
           </provider>
         </entry>
@@ -121,17 +64,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/circuit.erl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="145" column="27" selection-start-line="145" selection-start-column="27" selection-end-line="145" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/installation/flowMeterInst.erl">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
+            <state relative-caret-position="403">
+              <caret line="83" column="39" lean-forward="true" selection-start-line="83" selection-start-column="39" selection-end-line="83" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -234,10 +168,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="67" />
-    <option name="y" value="25" />
-    <option name="width" value="927" />
-    <option name="height" value="1053" />
+    <option name="x" value="121" />
+    <option name="y" value="109" />
+    <option name="width" value="917" />
+    <option name="height" value="789" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -280,7 +214,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1547745455217" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1547804999327" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -341,12 +275,12 @@
       <workItem from="1547219472758" duration="3308000" />
       <workItem from="1547228132424" duration="34398000" />
       <workItem from="1547387302847" duration="2894000" />
-      <workItem from="1547391709572" duration="103871000" />
+      <workItem from="1547391709572" duration="108136000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="153800000" />
+    <option name="totallyTimeSpent" value="158065000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
@@ -361,7 +295,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3291536" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49865085" weight="0.3291536" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49865085" visible="true" weight="0.3291536" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -371,7 +305,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50134915" side_tool="true" weight="0.3291536" />
-      <window_info active="true" anchor="bottom" id="Messages" order="12" visible="true" weight="0.3291536" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.3291536" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -646,13 +580,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/installation/heatExchangerInst.erl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="18" column="14" selection-start-line="18" selection-end-line="18" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/proper/test.erl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
@@ -671,13 +598,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="539">
           <caret line="89" selection-start-line="89" selection-end-line="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/survivor2.erl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="6" column="47" selection-start-line="6" selection-start-column="47" selection-end-line="6" selection-end-column="47" />
         </state>
       </provider>
     </entry>
@@ -723,10 +643,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/installation/heatExchangerInst.erl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="23" column="70" lean-forward="true" selection-start-line="23" selection-start-column="70" selection-end-line="23" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/survivor2.erl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/circuit.erl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="145" column="27" selection-start-line="145" selection-start-column="27" selection-end-line="145" selection-end-column="35" />
+        <state relative-caret-position="403">
+          <caret line="83" column="39" lean-forward="true" selection-start-line="83" selection-start-column="39" selection-end-line="83" selection-end-column="39" />
         </state>
       </provider>
     </entry>
